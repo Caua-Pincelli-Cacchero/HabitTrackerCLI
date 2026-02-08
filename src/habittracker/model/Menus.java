@@ -1,12 +1,6 @@
-package habittracker.menu;
+package habittracker.model;
 
-import java.util.Scanner;
-
-public class Menu {
-    Scanner scanner = new Scanner(System.in);
-
-    private String option;
-
+public class Menus {
     public void showMenu() {
         System.out.println("------------------------------");
         System.out.println("Bem vindo ao Habit Tracker");
@@ -21,8 +15,21 @@ public class Menu {
         System.out.println("------------------------------");
     }
 
-    private void registerUse() {
+    public void showFirstMenu() {
+        System.out.println("------------------------------");
+        System.out.println("1 - Registrar Usuário");
+        System.out.println("2 - Log In");
+        System.out.println("------------------------------");
+    }
 
+    public void showUsername() {
+        System.out.println("------------------------------");
+        System.out.println("Username:");
+    }
+
+    public void showPassword() {
+        System.out.println("Senha:");
+        System.out.println("------------------------------");
     }
 
 
