@@ -6,12 +6,24 @@ public class Habit {
     private int totalTimeSpentInSocialMedia;
     private int dayTimeSpentInSocialMedia;
 
+    public Habit(String socialMedia, int dayTimeSpentInSocialMedia){
+        this.socialMedia = socialMedia;
+        this.dayTimeSpentInSocialMedia = dayTimeSpentInSocialMedia;
+    }
     public int getTotalTimeSpentInSocialMedia() {
         return totalTimeSpentInSocialMedia;
     }
 
     public void setTotalTimeSpentInSocialMedia(int totalTimeSpentInSocialMedia) {
         this.totalTimeSpentInSocialMedia = totalTimeSpentInSocialMedia;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getSocialMedia() {
