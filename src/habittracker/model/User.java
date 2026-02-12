@@ -6,6 +6,12 @@ public class User {
     private String password;
     private int limitTimeSpentInSocialMediaPerDay;
 
+    public User(String username, String password, int limitTimeSpentInSocialMediaPerDay) {
+        this.username = username;
+        this.password = password;
+        this.limitTimeSpentInSocialMediaPerDay = limitTimeSpentInSocialMediaPerDay;
+    }
+
     public int getLimitTimeSpentInSocialMediaPerDay() {
         return limitTimeSpentInSocialMediaPerDay;
     }
