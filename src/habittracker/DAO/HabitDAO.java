@@ -1,16 +1,13 @@
 package habittracker.DAO;
 import habittracker.model.Habit;
-import habittracker.model.Habit;
 import habittracker.database.Connection;
-import habittracker.model.User;
+
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class HabitDAO {
 
     public void insertHabit(Habit habit) {
-
-        User user = new User();
 
         String sql = """
             INSERT INTO Habit
@@ -19,14 +16,13 @@ public class HabitDAO {
         """;
 
         try (
-                java.sql.Connection conn = Connection.getConexao();
+                java.sql.Connection conn = Connection.getConnexion();
                 PreparedStatement stmt = conn.prepareStatement(sql)
         ) {
 
             stmt.setString(1, habit.getSocialMedia());
             stmt.setInt(2, habit.getDayTimeSpentInSocialMedia());
             stmt.setInt(3, habit.getTotalTimeSpentInSocialMedia());
-            stmt.setInt(4, user.getId());
 
             stmt.executeUpdate();
 

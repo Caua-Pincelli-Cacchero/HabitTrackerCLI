@@ -12,6 +12,18 @@ public class User {
         this.limitTimeSpentInSocialMediaPerDay = limitTimeSpentInSocialMediaPerDay;
     }
 
+    public User(int id, String username, String password, int limitTimeSpentInSocialMediaPerDay) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.limitTimeSpentInSocialMediaPerDay = limitTimeSpentInSocialMediaPerDay;
+    }
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public int getLimitTimeSpentInSocialMediaPerDay() {
         return limitTimeSpentInSocialMediaPerDay;
     }

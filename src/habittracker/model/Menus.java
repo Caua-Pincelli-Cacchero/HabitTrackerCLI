@@ -29,7 +29,10 @@ public class Menus {
 
     public void showPassword() {
         System.out.println("Senha:");
-        System.out.println("------------------------------");
+    }
+
+    public void showLimitPerDay() {
+        System.out.println("Limete por dia (min): ");
     }
 
 
