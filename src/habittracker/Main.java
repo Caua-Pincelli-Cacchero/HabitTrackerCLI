@@ -15,48 +15,73 @@ public class Main {
         UserDAO userDAO = new UserDAO();
         Scanner scanner = new Scanner(System.in);
 
+        User loggedUser = null;
+
         menus.showFirstMenu();
         int firstMenuOption = scanner.nextInt();
-
         if (firstMenuOption == 1) {
+
+            // Input e cadastro de novo usuário
             menus.showUsername();
             String username = scanner.next();
             scanner.nextLine();
             menus.showPassword();
             String password = scanner.next();
             scanner.nextLine();
-            menus.showLimitPerDay();
-            int limitTimeSpentInSocialMediaPerDay = scanner.nextInt();
-            System.out.println("------------------------------");
+        menus.showLimitPerDay();
+        int limitTimeSpentInSocialMediaPerDay = scanner.nextInt();
+        System.out.println("------------------------------");
 
-            User user = new User(username,
-                    password,
-                    limitTimeSpentInSocialMediaPerDay);
-            userDAO.insertUser(user);
-        }  else if (firstMenuOption == 2) {
+        User newUser = new User(username,
+                password,
+                limitTimeSpentInSocialMediaPerDay);
+        userDAO.insertUser(newUser);
+    } else if (firstMenuOption == 2) {
 
-            menus.showUsername();
-            String username = scanner.next();
-            scanner.nextLine();
-            menus.showPassword();
-            String password = scanner.next();
-            System.out.println("------------------------------");
+        // Logar usuário
+        menus.showUsername();
+        String username = scanner.next();
+        scanner.nextLine();
+        menus.showPassword();
+        String password = scanner.next();
+        int  limitPerDay = scanner.nextInt();
+        System.out.println("------------------------------");
 
-            userDAO.login(username, password);
+        loggedUser = userDAO.login(username, password);
+
+        if (loggedUser == null) {
+            System.out.println("Login ou Senha invalido");
+            return;
         }
-        menus.showMenu();
-        int secondMenuOption = scanner.nextInt();
+    } else {
+            System.out.println("Opção invalida");
+            return;
+        }
 
-        if (secondMenuOption == 1) {
-            System.out.println("Rede social:");
-            String socialMedia = scanner.nextLine();
-            scanner.nextLine();
+    menus.showMenu();
+    int secondMenuOption = scanner.nextInt();
 
-            System.out.println("Quanto tempo no(a)" + socialMedia);
-            int timeSpentInSocialMedia = scanner.nextInt();
+    if (secondMenuOption == 1) {
+        System.out.println("Rede social:");
+        String socialMedia = scanner.next();
+        scanner.nextLine();
 
-            Habit habit = new Habit(socialMedia, timeSpentInSocialMedia);
-            habitDAO.insertHabit(habit);
+        System.out.printf("Quanto tempo no(a) " + socialMedia + ":");
+        int timeSpentInSocialMediaOnDay = scanner.nextInt();
+        scanner.nextLine();
+
+        if (timeSpentInSocialMediaOnDay > loggedUser.getLimitTimeSpentInSocialMediaPerDay()) {
+            System.out.println("Você ultrapassou seu limite diário de tempo nas redes sociais.");
+        }
+
+        int totalTimeSpentInSocialMedia = 0;
+        totalTimeSpentInSocialMedia += timeSpentInSocialMediaOnDay;
+
+        Habit habit = new Habit(socialMedia, timeSpentInSocialMediaOnDay,
+                totalTimeSpentInSocialMedia,
+                loggedUser.getLimitTimeSpentInSocialMediaPerDay());
+
+        habitDAO.insertHabit(habit);
         }
 
     }

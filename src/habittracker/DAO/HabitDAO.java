@@ -11,8 +11,8 @@ public class HabitDAO {
 
         String sql = """
             INSERT INTO Habit
-            (socialMedia, dayTimeSpentInSocialMedia, totalTimeSpent, user_id)
-            VALUES (?, ?, ?, ?)
+            (socialMedia, dayTimeSpentInSocialMedia, totalTimeSpent)
+            VALUES (?, ?, ?)
         """;
 
         try (
@@ -29,7 +29,7 @@ public class HabitDAO {
             System.out.println("Hábito criado com sucesso!");
 
         } catch (SQLException e) {
-            System.out.println("Erro ao inserir hábito");
+            System.out.println("Erro ao criar hábito");
             e.printStackTrace();
         }
     }

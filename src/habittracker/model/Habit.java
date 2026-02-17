@@ -7,11 +7,13 @@ public class Habit {
     private int totalTimeSpentInSocialMedia;
     private int dayTimeSpentInSocialMedia;
 
-    public Habit(String socialMedia, int dayTimeSpentInSocialMedia) {
+    public Habit(String socialMedia, int dayTimeSpentInSocialMedia, int  totalTimeSpentInSocialMedia, int UserId) {
         this.socialMedia = socialMedia;
         this.dayTimeSpentInSocialMedia = dayTimeSpentInSocialMedia;
+        this.totalTimeSpentInSocialMedia = totalTimeSpentInSocialMedia;
+        this.UserId = UserId;
     }
-    public int getTotalTimeSpentInSocialMedia() {
+        public int getTotalTimeSpentInSocialMedia() {
         return totalTimeSpentInSocialMedia;
     }
 

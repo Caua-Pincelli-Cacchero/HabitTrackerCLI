@@ -28,7 +28,6 @@ public class UserDAO {
 
             stmt.executeUpdate();
 
-            System.out.println("Hábito criado com sucesso!");
 
         } catch (SQLException e) {
             System.out.println("Erro ao inserir hábito");
@@ -39,7 +38,8 @@ public class UserDAO {
     public User login(String username, String password) {
 
         String sql = """
-            SELECT * FROM User WHERE username = ? AND password = ?;
+            SELECT * FROM User WHERE username = ? AND password = ?
+             AND limitTimeSpentInSocialMediaPerDay = ?;
         """;
 
         try (
@@ -53,17 +53,17 @@ public class UserDAO {
 
             if(rs.next()) {
                 return new User(
-                        rs.getInt("id"),
+                        rs.getShort("id"),
                         rs.getString("username"),
                         rs.getString("password"),
-                        rs.getInt("limitPerDay")
+                        rs.getInt("limitTimeSpentInSocialMediaPerDay")
                 );
             }
+            return null;
         } catch (SQLException e) {
-            System.out.println("Usuário ou senha incorreto!");
             e.printStackTrace();
+            return null;
         }
 
-        return null;
     }
 }
