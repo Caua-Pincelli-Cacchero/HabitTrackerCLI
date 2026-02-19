@@ -9,6 +9,7 @@ public class User {
     public User(String username, String password, int limitTimeSpentInSocialMediaPerDay) {
         this.username = username;
         this.password = password;
+        this.limitTimeSpentInSocialMediaPerDay = limitTimeSpentInSocialMediaPerDay;
     }
 
     public User(int id, String username, String password, int limitTimeSpentInSocialMediaPerDay) {

@@ -28,23 +28,24 @@ public class Main {
             menus.showPassword();
             String password = scanner.next();
             scanner.nextLine();
-        menus.showLimitPerDay();
-        int limitTimeSpentInSocialMediaPerDay = scanner.nextInt();
-        System.out.println("------------------------------");
+            menus.showLimitPerDay();
+            int limitTimeSpentInSocialMediaPerDay =  Integer.parseInt(scanner.nextLine().trim());
+            System.out.println("------------------------------");
 
-        User newUser = new User(username,
+            User newUser = new User(username,
                 password,
                 limitTimeSpentInSocialMediaPerDay);
-        userDAO.insertUser(newUser);
+
+            loggedUser = newUser;
+            userDAO.insertUser(newUser);
     } else if (firstMenuOption == 2) {
 
         // Logar usuário
         menus.showUsername();
-        String username = scanner.next();
+        String username = scanner.next().trim();
         scanner.nextLine();
         menus.showPassword();
-        String password = scanner.next();
-        int  limitPerDay = scanner.nextInt();
+        String password = scanner.next().trim();
         System.out.println("------------------------------");
 
         loggedUser = userDAO.login(username, password);
@@ -61,28 +62,42 @@ public class Main {
     menus.showMenu();
     int secondMenuOption = scanner.nextInt();
 
-    if (secondMenuOption == 1) {
-        System.out.println("Rede social:");
-        String socialMedia = scanner.next();
-        scanner.nextLine();
+    while (true) {
+        if (secondMenuOption == 1) {
+            System.out.println("Rede social:");
+            String socialMedia = scanner.next();
+            scanner.nextLine();
 
-        System.out.printf("Quanto tempo no(a) " + socialMedia + ":");
-        int timeSpentInSocialMediaOnDay = scanner.nextInt();
-        scanner.nextLine();
+            System.out.printf("Quanto tempo no(a) " + socialMedia + ":");
+            int timeSpentInSocialMediaOnDay = scanner.nextInt();
+            scanner.nextLine();
 
-        if (timeSpentInSocialMediaOnDay > loggedUser.getLimitTimeSpentInSocialMediaPerDay()) {
-            System.out.println("Você ultrapassou seu limite diário de tempo nas redes sociais.");
+            if (timeSpentInSocialMediaOnDay > loggedUser.getLimitTimeSpentInSocialMediaPerDay()) {
+                System.out.println("Você ultrapassou seu limite diário de tempo nas redes sociais.");
+            }
+
+            int totalTimeSpentInSocialMedia = 0;
+            totalTimeSpentInSocialMedia += timeSpentInSocialMediaOnDay;
+
+            Habit habit = new Habit(socialMedia, timeSpentInSocialMediaOnDay,
+                    totalTimeSpentInSocialMedia,
+                    loggedUser.getLimitTimeSpentInSocialMediaPerDay());
+
+            habitDAO.insertHabit(habit);
+
+            System.out.println("Pressione 1 para registrar outro hábito e 2 para sair!");
+            int option = scanner.nextInt();
+            if (option == 1) {
+                continue;
+            } else if (option == 2) {
+                System.out.println("Saindo do Habit Tracker, obrigado pela preferência.");
+                break;
+            }
+        } else if (secondMenuOption == 4) {
+            System.out.println("Saindo do Habit Tracker, obrigado pela preferência.");
+            break;
         }
-
-        int totalTimeSpentInSocialMedia = 0;
-        totalTimeSpentInSocialMedia += timeSpentInSocialMediaOnDay;
-
-        Habit habit = new Habit(socialMedia, timeSpentInSocialMediaOnDay,
-                totalTimeSpentInSocialMedia,
-                loggedUser.getLimitTimeSpentInSocialMediaPerDay());
-
-        habitDAO.insertHabit(habit);
-        }
+    }
 
     }
 }

@@ -38,9 +38,7 @@ public class UserDAO {
     public User login(String username, String password) {
 
         String sql = """
-            SELECT * FROM User WHERE username = ? AND password = ?
-             AND limitTimeSpentInSocialMediaPerDay = ?;
-        """;
+            SELECT * FROM User WHERE username = ? AND password = ?""";
 
         try (
                 java.sql.Connection conn = Connection.getConnexion();
@@ -53,10 +51,8 @@ public class UserDAO {
 
             if(rs.next()) {
                 return new User(
-                        rs.getShort("id"),
                         rs.getString("username"),
-                        rs.getString("password"),
-                        rs.getInt("limitTimeSpentInSocialMediaPerDay")
+                        rs.getString("password")
                 );
             }
             return null;
