@@ -6,6 +6,8 @@ import habittracker.model.Habit;
 import habittracker.model.Menus;
 import habittracker.model.User;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class Main {
@@ -15,7 +17,8 @@ public class Main {
         UserDAO userDAO = new UserDAO();
         Scanner scanner = new Scanner(System.in);
 
-        User loggedUser = null;
+        User loggedUser;
+        int totalTimeSpentOnDay = 0;
 
         menus.showFirstMenu();
         int firstMenuOption = scanner.nextInt();
@@ -62,26 +65,40 @@ public class Main {
     menus.showMenu();
     int secondMenuOption = scanner.nextInt();
 
+    //Ações
     while (true) {
         if (secondMenuOption == 1) {
+
             System.out.println("Rede social:");
             String socialMedia = scanner.next();
             scanner.nextLine();
 
-            System.out.printf("Quanto tempo no(a) " + socialMedia + ":");
-            int timeSpentInSocialMediaOnDay = scanner.nextInt();
+            System.out.println("Quanto tempo no(a) " + socialMedia + ":");
+            int timeSpentInEspecificSocialMedia = scanner.nextInt();
             scanner.nextLine();
+            totalTimeSpentOnDay += timeSpentInEspecificSocialMedia;
 
-            if (timeSpentInSocialMediaOnDay > loggedUser.getLimitTimeSpentInSocialMediaPerDay()) {
+            System.out.println("Dia do hábito:");
+            String dayOfHabit = scanner.nextLine();
+            DateTimeFormatter formatter =
+                    DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+            LocalDate date = LocalDate.parse(dayOfHabit, formatter);
+
+            int totalSoFar =
+                    habitDAO.getTotalTimeSpentOnDay(loggedUser.getId(), date);
+
+            int newTotal = totalSoFar + timeSpentInEspecificSocialMedia;
+
+            if (newTotal > loggedUser.getLimitTimeSpentInSocialMediaPerDay()) {
                 System.out.println("Você ultrapassou seu limite diário de tempo nas redes sociais.");
             }
 
-            int totalTimeSpentInSocialMedia = 0;
-            totalTimeSpentInSocialMedia += timeSpentInSocialMediaOnDay;
-
-            Habit habit = new Habit(socialMedia, timeSpentInSocialMediaOnDay,
-                    totalTimeSpentInSocialMedia,
-                    loggedUser.getLimitTimeSpentInSocialMediaPerDay());
+            Habit habit = new Habit(socialMedia,
+                    totalTimeSpentOnDay,
+                    newTotal,
+                    date,
+                    loggedUser.getId());
 
             habitDAO.insertHabit(habit);
 

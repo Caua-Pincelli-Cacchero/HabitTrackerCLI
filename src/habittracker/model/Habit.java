@@ -1,24 +1,28 @@
 package habittracker.model;
 
+import java.time.LocalDate;
+
 public class Habit {
     private int id;
-    private int UserId;
+    private int userId;
     private String socialMedia;
-    private int totalTimeSpentInSocialMedia;
+    private int totalTimeSpentInEspecificSocialMedia;
     private int dayTimeSpentInSocialMedia;
+    private LocalDate dayOfHabit;
 
-    public Habit(String socialMedia, int dayTimeSpentInSocialMedia, int  totalTimeSpentInSocialMedia, int UserId) {
+    public Habit(String socialMedia, int dayTimeSpentInSocialMedia, int  totalTimeSpentInSocialMedia, LocalDate dayOfHabit, int UserId) {
         this.socialMedia = socialMedia;
         this.dayTimeSpentInSocialMedia = dayTimeSpentInSocialMedia;
-        this.totalTimeSpentInSocialMedia = totalTimeSpentInSocialMedia;
-        this.UserId = UserId;
+        this.totalTimeSpentInEspecificSocialMedia = totalTimeSpentInSocialMedia;
+        this.dayOfHabit = dayOfHabit;
+        this.userId = UserId;
     }
-        public int getTotalTimeSpentInSocialMedia() {
-        return totalTimeSpentInSocialMedia;
+        public int getTotalTimeSpentInEspecificSocialMedia() {
+        return totalTimeSpentInEspecificSocialMedia;
     }
 
-    public void setTotalTimeSpentInSocialMedia(int totalTimeSpentInSocialMedia) {
-        this.totalTimeSpentInSocialMedia = totalTimeSpentInSocialMedia;
+    public void setTotalTimeSpentInEspecificSocialMedia(int totalTimeSpentInEspecificSocialMedia) {
+        this.totalTimeSpentInEspecificSocialMedia = totalTimeSpentInEspecificSocialMedia;
     }
 
     public int getId() {
@@ -39,6 +43,22 @@ public class Habit {
 
     public int getDayTimeSpentInSocialMedia() {
         return dayTimeSpentInSocialMedia;
+    }
+
+    public LocalDate getDayOfHabit() {
+        return dayOfHabit;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public void setDayOfHabit(LocalDate dayOfHabit) {
+        this.dayOfHabit = dayOfHabit;
     }
 
     public void setDayTimeSpentInSocialMedia(int dayTimeSpentInSocialMedia) {

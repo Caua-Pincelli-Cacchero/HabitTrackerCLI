@@ -6,20 +6,23 @@ import habittracker.model.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class UserDAO {
 
     public void insertUser(User user) {
 
         String sql = """
-            INSERT INTO User
-            (username, password, limitTimeSpentInSocialMediaPerDay)
-            VALUES (?, ?, ?)
-        """;
+        INSERT INTO User (username, password, limitTimeSpentInSocialMediaPerDay)
+        VALUES (?, ?, ?)
+    """;
 
         try (
                 java.sql.Connection conn = Connection.getConnexion();
-                PreparedStatement stmt = conn.prepareStatement(sql)
+                PreparedStatement stmt = conn.prepareStatement(
+                        sql,
+                        Statement.RETURN_GENERATED_KEYS
+                )
         ) {
 
             stmt.setString(1, user.getUsername());
@@ -28,9 +31,15 @@ public class UserDAO {
 
             stmt.executeUpdate();
 
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                user.setId(rs.getInt(1));
+            }
+
+            System.out.println("Usuário criado com sucesso!");
 
         } catch (SQLException e) {
-            System.out.println("Erro ao inserir hábito");
+            System.out.println("Erro ao criar usuário");
             e.printStackTrace();
         }
     }
@@ -38,7 +47,9 @@ public class UserDAO {
     public User login(String username, String password) {
 
         String sql = """
-            SELECT * FROM User WHERE username = ? AND password = ?""";
+                SELECT id, username, password, limitTimeSpentInSocialMediaPerDay
+                FROM User
+                WHERE username = ? AND password = ?""";
 
         try (
                 java.sql.Connection conn = Connection.getConnexion();
@@ -51,8 +62,10 @@ public class UserDAO {
 
             if(rs.next()) {
                 return new User(
+                        rs.getInt("id"),
                         rs.getString("username"),
-                        rs.getString("password")
+                        rs.getString("password"),
+                        rs.getInt("limitTimeSpentInSocialMediaPerDay")
                 );
             }
             return null;
