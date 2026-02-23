@@ -71,4 +71,12 @@ public class Habit {
     public void setDayTimeSpentInSocialMedia(int dayTimeSpentInSocialMedia) {
         this.dayTimeSpentInSocialMedia = dayTimeSpentInSocialMedia;
     }
+
+    @Override
+    public String toString() {
+        return "Dia do hábito: " + dayOfHabit +
+                " | Rede social: " + socialMedia +
+                " | Tempo no " + socialMedia + ": " +
+                dayTimeSpentInSocialMedia + " min";
+    }
 }
