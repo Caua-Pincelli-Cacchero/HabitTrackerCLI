@@ -6,8 +6,10 @@ import habittracker.model.Habit;
 import habittracker.model.Menus;
 import habittracker.model.User;
 
+import java.util.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -46,7 +48,6 @@ public class Main {
         // Logar usuário
         menus.showUsername();
         String username = scanner.next().trim();
-        scanner.nextLine();
         menus.showPassword();
         String password = scanner.next().trim();
         System.out.println("------------------------------");
@@ -102,19 +103,30 @@ public class Main {
 
             habitDAO.insertHabit(habit);
 
-            System.out.println("Pressione 1 para registrar outro hábito e 2 para sair!");
+            System.out.println("Pressione 1 para registrar outro hábito, 2 para voltar ao menu e 3 para sair!");
             int option = scanner.nextInt();
             if (option == 1) {
                 continue;
             } else if (option == 2) {
-                System.out.println("Saindo do Habit Tracker, obrigado pela preferência.");
                 break;
+            } else if (option == 3) {
+                System.out.println("Saindo do Habit Tracker, obrigado pela preferência.");
+                System.exit(0);
             }
-        } else if (secondMenuOption == 4) {
+        } else if (secondMenuOption == 2) {
+            List<Habit> habits = habitDAO.getAllHabitsByUserId(loggedUser.getId());
+            if(habits.isEmpty()){
+                System.out.println("Nenhum habito foi encontrado.");
+            } else {
+                System.out.println(habits);
+            }
+        }
+        else if (secondMenuOption == 4) {
             System.out.println("Saindo do Habit Tracker, obrigado pela preferência.");
             break;
         }
     }
+    scanner.close();
 
     }
 }

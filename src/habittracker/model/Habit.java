@@ -17,7 +17,14 @@ public class Habit {
         this.dayOfHabit = dayOfHabit;
         this.userId = UserId;
     }
-        public int getTotalTimeSpentInEspecificSocialMedia() {
+
+    public Habit(String socialMedia, int dayTimeSpentInEspecificSocialMedia, LocalDate dateOfHabit) {
+        this.socialMedia = socialMedia;
+        this.dayTimeSpentInSocialMedia = dayTimeSpentInSocialMedia;
+        this.dayOfHabit = dateOfHabit;
+    }
+
+    public int getTotalTimeSpentInEspecificSocialMedia() {
         return totalTimeSpentInEspecificSocialMedia;
     }
 

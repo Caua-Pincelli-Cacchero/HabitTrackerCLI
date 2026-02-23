@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.*;
 
 public class HabitDAO {
 
@@ -63,5 +64,39 @@ public class HabitDAO {
         }
 
         return 0;
+    }
+
+    public List<Habit> getAllHabitsByUserId(int userId) {
+        List<Habit> habits = new ArrayList<>();
+
+        String sql = """
+                SELECT socialMedia, dayTimeSpentInEspecificSocialMedia, dateOfHabit
+                FROM Habit
+                WHERE user_id = ?
+                ORDER BY dateOfHabit
+                """;
+
+        try (
+                java.sql.Connection conn = Connection.getConnexion();
+                PreparedStatement stmt = conn.prepareStatement(sql)
+                ) {
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Habit habit = new Habit(
+                rs.getString("socialMedia"),
+                rs.getInt("dayTimeSpentInEspecificSocialMedia"),
+                rs.getDate("dateOfHabit").toLocalDate()
+                );
+                habits.add(habit);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return habits;
+
     }
 }
